@@ -3,6 +3,19 @@
 const D = document;
 const B = document.body;
 
+const formatDate = function (date) {
+    let d = new Date(date);
+    let month = "" + (d.getMonth() + 1);
+    let day = "" + d.getDate();
+    let year = d.getFullYear();
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2)  day = "0" + day;
+    return [year, month, day].join("-");
+}
+
+const today = () => new Date();
+const tomorrow = () => new Date(new Date().setTime(new Date().getTime() + (24 * 60 * 60 * 1000)));
+
 let listCount = 0;
 
 class ToDoList {
@@ -74,6 +87,8 @@ class Task {
         this.constructView ();
     }
 
+    // ----- MODEL -----
+
     remove () {
         let thisTask = this;
         let thisIndex = this.parent.tasks.findIndex(task => {
@@ -81,6 +96,8 @@ class Task {
         });
         this.parent.remove(thisIndex);
     }
+
+    // ----- VIEW -----
 
     constructView () {
         this.el = D.createElement("li");
@@ -112,14 +129,23 @@ toDoList.add("bar2");
 
 let formAddNewTask = D.createElement("form");
 let inputNewTaskContent = D.createElement("input");
+
+let inputDateDue = D.createElement("input");
+inputDateDue.type = "date";
+inputDateDue.value = formatDate(tomorrow());
+inputDateDue.min = formatDate(today());
+
 let buttonAddNewTask = D.createElement("button");
 buttonAddNewTask.type = "button"; // so form doesn't get submitted
 buttonAddNewTask.textContent = "Add Task";
 buttonAddNewTask.addEventListener("click", () => {
-  toDoList.add(inputNewTaskContent.value);
-  inputNewTaskContent.value = "";
+    let content = inputNewTaskContent.value;
+    let dateDue = new Date(inputDateDue.value);
+    toDoList.add(content, today(), dateDue);
+    inputNewTaskContent.value = "";
+    inputDateDue.value = formatDate(tomorrow());
 });
-formAddNewTask.appendChild(inputNewTaskContent);
-formAddNewTask.appendChild(buttonAddNewTask);
+
+formAddNewTask.append(inputNewTaskContent, inputDateDue, buttonAddNewTask);
 
 B.appendChild(formAddNewTask);
