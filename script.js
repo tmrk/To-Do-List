@@ -58,9 +58,9 @@ class ToDoList {
         if (searchTerm) {
             this.tasks.forEach(task => {
                 if (!task.content.includes(searchTerm)) task.el.style.display = "none";
-                else task.el.style.display = "block";
+                else task.el.style.display = "flex";
             });
-        } else this.tasks.forEach(task => { task.el.style.display = "block"; });;
+        } else this.tasks.forEach(task => task.el.style.display = "flex");;
     }
 
     constructView () {
@@ -98,7 +98,10 @@ class ToDoList {
                 this.add(newTask);
                 inputNewTaskContent.value = "";
                 inputDateDue.value = FormatDate(today);
-            } else console.error("No task specified");
+            } else {
+                inputNewTaskContent.focus();
+                console.error("No task specified");
+            }
         });
 
         let inputSearch = D.createElement("input");
@@ -108,7 +111,7 @@ class ToDoList {
         });
 
         this.divList = D.createElement("div");
-        this.divList.id = this.name.replaceAll(" ", "")
+        this.divList.id = this.name.replaceAll(" ", "");
         this.divList.classList.add("todolist");
 
         this.control.append(inputNewTaskContent, divDueDate, buttonAddNewTask);
