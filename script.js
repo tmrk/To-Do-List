@@ -202,7 +202,7 @@ B.append(header, divContainer, footer);
 let toDoList = new ToDoList("myList");
 
 // Add some test data
-toDoList.add("hej");
-toDoList.add("foo");
-toDoList.add("bar");
-toDoList.add("bar2");
+toDoList.add("Take out the rubbish");
+toDoList.add("Wash the dishes", new Date(), Tomorrow());
+toDoList.add("Stop climate change", new Date(), new Date("2030-01-01"));
+toDoList.add("Finish course excercise");
