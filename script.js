@@ -2,6 +2,8 @@
 
 const D = document;
 const B = document.body;
+const Today = () => new Date();
+const Tomorrow = () => new Date(new Date().setTime(new Date().getTime() + (24 * 60 * 60 * 1000)));
 
 const FormatDate = function (date) {
     let d = new Date(date);
@@ -12,9 +14,6 @@ const FormatDate = function (date) {
     if (day.length < 2)  day = "0" + day;
     return [year, month, day].join("-");
 }
-
-const Today = () => new Date();
-const Tomorrow = () => new Date(new Date().setTime(new Date().getTime() + (24 * 60 * 60 * 1000)));
 
 let listCount = 0;
 
@@ -53,7 +52,6 @@ class ToDoList {
         } else console.error("No task at the specified index " + taskIndex);
     }
 
-    // Returns an array of tasks that include the searchterm
     search (searchTerm) {
         if (searchTerm) {
             this.tasks.forEach(task => {
@@ -188,18 +186,14 @@ class Task {
 
 // ----- BUILD PAGE -----
 
-let header = D.createElement("header");
 let h1Title = D.createElement("h1");
 h1Title.textContent = "To Do List"
+let header = D.createElement("header");
 header.appendChild(h1Title);
-
 let divContainer = D.createElement("div");
 divContainer.id = "container";
 
-let footer = D.createElement("footer");
-
-B.append(header, divContainer, footer);
-
+B.append(header, divContainer);
 
 // Create a new To Do List
 let toDoList = new ToDoList("myList");
